@@ -1,0 +1,14 @@
+{
+  "name": "gta-scheduler-demo",
+  "version": "1.0.0",
+  "description": "Command line demo for GTA-scheduler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arif Bashar",
+  "license": "ISC",
+  "dependencies": {
+    "xlsx": "^0.16.8"
+  }
+}
