@@ -1,9 +1,13 @@
-let xlsx = require('xlsx');
+// Import modules
+const xlsx = require('xlsx');
 const fs = require('fs');
 
+
 /* Returns an object array of CS Labs 
-   Returns  object: { CRN: string, COURSE: string, TITLE: string, 
-    DAYS: string, TIME: string, PROF: string }   */
+   Returns  object: 
+   { CRN: string, COURSE: string, TITLE: string, 
+   DAYS: string, TIME: string, PROF: string }
+*/
 function getLabs() {
 
   // Read from the courses spreadsheet and grab the excel sheet
@@ -12,53 +16,70 @@ function getLabs() {
   let coursesSheet = coursesBook.Sheets[coursesSheetName];
 
   // Convert from xlsx sheet to JSON 
-  let sheetObjs = xlsx.utils.sheet_to_json(coursesSheet);
-  let prevCRN = sheetObjs[0].CRN;
+  let courses = xlsx.utils.sheet_to_json(coursesSheet);
 
+  // Object array to hold list of labs
   let labs = [];
 
-  for (let i = 1; i < sheetObjs.length; i++) {
-    if (sheetObjs[i].CRN == prevCRN) {
+  // Keep track of the previous CRN
+  let prevCRN = courses[0].CRN;
+
+  // Iterate through all the course objects in the 
+  for (let i = 1; i < courses.length; i++) {
+    /* If there is a duplicate course with the same CRN,
+      then it is considered a lab */
+    if (courses[i].CRN == prevCRN) {
       labs.push({
-        CRN: sheetObjs[i].CRN, 
-        COURSE: sheetObjs[i].SUBJ + ' ' + sheetObjs[i].CRSE + ' ' + sheetObjs[i].SEC,
-        TITLE: sheetObjs[i].TITLE,
-        DAYS: getDays(sheetObjs[i]),
-        TIME: sheetObjs[i].BEGIN + ' - ' + sheetObjs[i].END_1,
-        PROF: sheetObjs[i].FIRST + ' ' + sheetObjs[i].LAST
+        CRN: courses[i].CRN, 
+        COURSE: courses[i].SUBJ + ' ' + courses[i].CRSE + ' ' + courses[i].SEC,
+        TITLE: courses[i].TITLE,
+        DAYS: getDays(courses[i]),
+        TIME: courses[i].BEGIN + ' - ' + courses[i].END_1,
+        PROF: courses[i].FIRST + ' ' + courses[i].LAST
       });
     }
     
-    prevCRN = sheetObjs[i].CRN;
+    // Update the CRN
+    prevCRN = courses[i].CRN;
   }
 
-  console.log(labs);
+  return labs;
+}
+
+function getGTA() {
 
 }
 
-function getDays(course) {
+// Concatenates all the day properties in each lab object
+function getDays(lab) {
   let days = "";
 
-  if ("M" in course)
+  // Checks if these keys are in the object
+  if ("M" in lab)
     days += "M ";
-  
-  if ("T" in course)
+
+  if ("T" in lab)
     days += "T ";
 
-  if ("W" in course)
+  if ("W" in lab)
     days += "W ";
   
-  if ("TR" in course)
+  if ("TR" in lab)
     days += "TR ";
 
-  if ("TR" in course)
-    days += "TR ";
+  if ("F" in lab)
+    days += "F ";
+
+  // Remove the extra whitespace at the end
+  days = days.slice(0, -1);
 
   return days;
 }
 
 function main() {
-  getLabs();
+
+  let labs = getLabs();
+  console.log(labs);
 
 }
 
