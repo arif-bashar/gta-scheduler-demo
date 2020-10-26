@@ -2,7 +2,7 @@
   "name": "gta-scheduler-demo",
   "version": "1.0.0",
   "description": "Command line demo for GTA-scheduler",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
