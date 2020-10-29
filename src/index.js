@@ -1,21 +1,22 @@
 // Import modules
-const xlsx = require('xlsx');
-const fs = require('fs');
+const xlsx = require("xlsx");
+const fs = require("fs");
 
+const COURSES_PATH = "src/inputFiles/courses.xlsx";
+const GTA_PATH = "src/inputFiles/schedules.xlsx";
 
 /* Returns an object array of CS Labs 
-   Returns  object: 
+   Return object: 
    { CRN: string, COURSE: string, TITLE: string, 
    DAYS: string, TIME: string, PROF: string }
 */
 function getLabs() {
-
   // Read from the courses spreadsheet and grab the excel sheet
-  let coursesBook = xlsx.readFile("src/inputFiles/courses.xlsx");
+  let coursesBook = xlsx.readFile(COURSES_PATH);
   let coursesSheetName = coursesBook.SheetNames[0];
   let coursesSheet = coursesBook.Sheets[coursesSheetName];
 
-  // Convert from xlsx sheet to JSON 
+  // Convert from xlsx sheet to JSON
   let courses = xlsx.utils.sheet_to_json(coursesSheet);
 
   // Object array to hold list of labs
@@ -24,21 +25,21 @@ function getLabs() {
   // Keep track of the previous CRN
   let prevCRN = courses[0].CRN;
 
-  // Iterate through all the course objects in the 
+  // Iterate through all the course objects in the
   for (let i = 1; i < courses.length; i++) {
     /* If there is a duplicate course with the same CRN,
       then it is considered a lab */
     if (courses[i].CRN == prevCRN) {
       labs.push({
-        CRN: courses[i].CRN, 
-        COURSE: courses[i].SUBJ + ' ' + courses[i].CRSE + ' ' + courses[i].SEC,
+        CRN: courses[i].CRN,
+        COURSE: courses[i].SUBJ + " " + courses[i].CRSE + " " + courses[i].SEC,
         TITLE: courses[i].TITLE,
         DAYS: getDays(courses[i]),
-        TIME: courses[i].BEGIN + ' - ' + courses[i].END_1,
-        PROF: courses[i].FIRST + ' ' + courses[i].LAST
+        TIME: courses[i].BEGIN + " - " + courses[i].END_1,
+        PROF: courses[i].FIRST + " " + courses[i].LAST,
       });
     }
-    
+
     // Update the CRN
     prevCRN = courses[i].CRN;
   }
@@ -46,8 +47,54 @@ function getLabs() {
   return labs;
 }
 
-function getGTA() {
+/* Returns an object array of GTAs 
+   Return object: 
+   { CRN: string, COURSE: string, TITLE: string, 
+   DAYS: string, TIME: string, PROF: string }
+*/
+function getGTAs() {
+  // Read from the schedule spreadsheet and grab the excel sheet
+  let scheduleBook = xlsx.readFile(GTA_PATH);
+  let scheduleSheetName = scheduleBook.SheetNames[0];
+  let scheduleSheet = scheduleBook.Sheets[scheduleSheetName];
 
+  // Convert from xlsx sheet to JSON
+  let schedules = xlsx.utils.sheet_to_json(scheduleSheet);
+
+  // Object array to hold list of gtas
+  let gtas = [];
+  let gta = {};
+  let prevCellVal;
+
+  // console.log(scheduleSheet["A1"]);
+
+  // Iterate through all the course objects in the
+  for (let cell in scheduleSheet) {
+    const cellAsString = cell.toString();
+
+    if (
+      cellAsString[1] !== "r" &&
+      cellAsString[1] !== "m" &&
+      cellAsString[1] > 0
+    ) {
+      if (cellAsString[0] === "A") {
+        let value = scheduleSheet[cell].v;
+        
+
+        // We know that student name cell always
+        // precedes the CRN: cell. If there is no student name
+        // before that cell, throw an error.
+        if (value.includes("CRN:")) {
+          if ((prevCellVal.includes(":")))
+            throw new Error("There is a schedule with no student name");
+          else
+            console.log(prevCellVal);
+        }
+      }
+
+    }
+    prevCellVal = scheduleSheet[cell].v;
+  }
 }
 
 // Concatenates all the day properties in each lab object
@@ -55,20 +102,15 @@ function getDays(lab) {
   let days = "";
 
   // Checks if these keys are in the object
-  if ("M" in lab)
-    days += "M ";
+  if ("M" in lab) days += "M ";
 
-  if ("T" in lab)
-    days += "T ";
+  if ("T" in lab) days += "T ";
 
-  if ("W" in lab)
-    days += "W ";
-  
-  if ("TR" in lab)
-    days += "TR ";
+  if ("W" in lab) days += "W ";
 
-  if ("F" in lab)
-    days += "F ";
+  if ("TR" in lab) days += "TR ";
+
+  if ("F" in lab) days += "F ";
 
   // Remove the extra whitespace at the end
   days = days.slice(0, -1);
@@ -77,11 +119,9 @@ function getDays(lab) {
 }
 
 function main() {
-
   let labs = getLabs();
-  console.log(labs);
-
+  getGTAs();
+  // console.log(labs);
 }
 
 main();
-

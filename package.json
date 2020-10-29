@@ -9,6 +9,7 @@
   "author": "Arif Bashar",
   "license": "ISC",
   "dependencies": {
+    "html-table-to-json": "^1.0.0",
     "xlsx": "^0.16.8"
   }
 }
