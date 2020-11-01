@@ -14,7 +14,7 @@ function main() {
   let labs = getLabs(COURSES_PATH);
   let gtas = getGTAs(GTA_PATH);
   // console.log(labs);
-  console.log(gtas[0].Busy);
+  console.log(gtas);
 
 }
 

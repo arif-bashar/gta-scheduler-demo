@@ -3,8 +3,9 @@ const timeConverter = require("./timeConverter");
 
 /* Returns an object array of GTAs 
    Return object: 
-   { Student: string, Busy: [{ Days: {}}], TITLE: string, 
-   DAYS: string, TIME: string, PROF: string }
+   { Student: string, Busy: [{ Days: {}, 
+    Begin: int, End: int}], 
+   }
 */
 const getGTAs = (gtaPath) => {
   // Read from the schedule spreadsheet and grab the excel sheet
@@ -22,7 +23,7 @@ const getGTAs = (gtaPath) => {
 
   // console.log(scheduleSheet["A1"]);
 
-  // Iterate through all the course objects in the
+  // Iterate through all cells, looking at the A column containing student names
   for (let cell in scheduleSheet) {
     const cellAsString = cell.toString();
 
@@ -42,7 +43,6 @@ const getGTAs = (gtaPath) => {
           if (notStudentName(prevCellVal))
             throw new Error("There is a schedule with no student name");
           else {
-            //
             gta.Student = prevCellVal;
             gtas.push(gta);
             gta = {};
@@ -53,13 +53,14 @@ const getGTAs = (gtaPath) => {
     prevCellVal = scheduleSheet[cell].v;
   }
 
+  // Still need to extract day and time information
   appendDays(scheduleSheet, gtas);
   appendTime(scheduleSheet, gtas);
-
 
   return gtas;
 }
 
+// Iterates through spreadsheet to extract day information
 const appendDays = (scheduleSheet, gtas) => {
   let busy;
   let sched;
@@ -82,7 +83,7 @@ const appendDays = (scheduleSheet, gtas) => {
           index++
         } else {
           sched = {
-            Days: value,
+            Days: getDays(value),
             Begin: 0,
             End: 0,
           }
@@ -95,6 +96,7 @@ const appendDays = (scheduleSheet, gtas) => {
   }
 }
 
+// Iterates through spreadsheet to extract time information
 const appendTime = (scheduleSheet, gtas) => {
   let busy;
   let sched;
@@ -134,9 +136,40 @@ const appendTime = (scheduleSheet, gtas) => {
   }
 }
 
-
+// If this returns true, it means it is not a student name
 const notStudentName = (cellValue) => {
   return cellValue.includes(":");
+}
+
+// Concatenates all the day properties in each lab object
+const getDays = (value) => {
+
+  // Initialize days object
+  let days = {
+    M: false,
+    T: false,
+    W: false,
+    TR: false,
+    F: false
+  }
+
+  // Since value is a string that contains "M W F", split it by whitespace
+  value = value.split(" "); // returns an array
+
+  // Iterate through the value array and if day is in array, switch bool to true
+  for (let i = 0; i < value.length; i++) {
+    if ("M" === value[i]) days.M = true;
+
+    if ("T" === value[i]) days.T = true;
+
+    if ("W" === value[i]) days.W = true;
+
+    if ("TR" === value[i]) days.TR = true;
+
+    if ("F" === value[i]) days.F = true;
+  }
+
+  return days;
 }
 
 module.exports = getGTAs;
