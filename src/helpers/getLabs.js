@@ -27,12 +27,12 @@ const getLabs = (coursesPath) => {
     if (courses[i].CRN == prevCRN) {
       labs.push({
         CRN: courses[i].CRN,
-        COURSE: courses[i].SUBJ + " " + courses[i].CRSE + " " + courses[i].SEC,
-        TITLE: courses[i].TITLE,
-        DAYS: getDays(courses[i]),
-        BEGIN: parseInt(courses[i].BEGIN),
-        END: parseInt(courses[i].END_1),
-        PROF: courses[i].FIRST + " " + courses[i].LAST,
+        Course: courses[i].SUBJ + " " + courses[i].CRSE + " " + courses[i].SEC,
+        Title: courses[i].TITLE,
+        Days: getDays(courses[i]),
+        Begin: parseInt(courses[i].BEGIN),
+        End: parseInt(courses[i].END_1),
+        Prof: courses[i].FIRST + " " + courses[i].LAST,
       });
     }
 

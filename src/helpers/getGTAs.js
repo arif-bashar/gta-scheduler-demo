@@ -1,8 +1,9 @@
 const xlsx = require("xlsx");
+const timeConverter = require("./timeConverter");
 
 /* Returns an object array of GTAs 
    Return object: 
-   { CRN: string, COURSE: string, TITLE: string, 
+   { Student: string, Busy: [{ Days: {}}], TITLE: string, 
    DAYS: string, TIME: string, PROF: string }
 */
 const getGTAs = (gtaPath) => {
@@ -82,7 +83,8 @@ const appendDays = (scheduleSheet, gtas) => {
         } else {
           sched = {
             Days: value,
-            Time: ''
+            Begin: 0,
+            End: 0,
           }
           busy.push(sched);
           gtas[index].Busy = busy;
@@ -111,24 +113,21 @@ const appendTime = (scheduleSheet, gtas) => {
         let value = scheduleSheet[cell].v;
         
         if (value === "TIME" && index < gtas.length) {
-          // console.log(busyIndex);
           busy = [];
           sched = {};
           busyIndex = 0;
           index++;
         } else {
-          // if (busyIndex === gtas[index].Busy.length) {
-          //   busyIndex = 0;
-          //   console.log("length is", gtas[index].Busy.length)
-
-          // }
           if (value.includes("AM") || value.includes("PM")) {
-            gtas[index].Busy[busyIndex].Time = value;
-            // console.log(index, busyIndex);
-            // console.log(gtas[index].Busy);
+            let time = value.split("-");
+            let begin = timeConverter(time[0]);
+            let end = timeConverter(time[1]);
+
+            gtas[index].Busy[busyIndex].Begin = begin;
+            gtas[index].Busy[busyIndex].End = end;
+
             busyIndex++;
           }
-
         }
       }
     }
