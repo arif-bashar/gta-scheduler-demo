@@ -1,7 +1,4 @@
 // Import modules
-const xlsx = require("xlsx");
-const fs = require("fs");
-const timeConverter = require("./helpers/timeConverter");
 const getLabs = require("./helpers/getLabs");
 const getGTAs = require("./helpers/getGTAs");
 
@@ -16,11 +13,6 @@ function main() {
 
   schedule = {};
 
-  // for (let i = 0; i < gtas.length; i++) {
-  //   for (let j = 0; j < gtas[i].Busy.length; j++) {
-
-  //   }
-  // }
   
   // console.log(labs);
   // console.log(gtas[0].Busy);
@@ -28,3 +20,4 @@ function main() {
 }
 
 main();
+

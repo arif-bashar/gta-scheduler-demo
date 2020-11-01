@@ -24,7 +24,7 @@ const getLabs = (coursesPath) => {
   for (let i = 1; i < courses.length; i++) {
     /* If there is a duplicate course with the same CRN,
       then it is considered a lab */
-    if (courses[i].CRN == prevCRN) {
+    if (courses[i].CRN == prevCRN && courses[i].CRSE != '6050') {
       labs.push({
         CRN: courses[i].CRN,
         Course: courses[i].SUBJ + " " + courses[i].CRSE + " " + courses[i].SEC,
