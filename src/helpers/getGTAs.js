@@ -149,7 +149,7 @@ const getDays = (value) => {
     M: false,
     T: false,
     W: false,
-    TR: false,
+    R: false,
     F: false
   }
 
@@ -164,7 +164,7 @@ const getDays = (value) => {
 
     if ("W" === value[i]) days.W = true;
 
-    if ("TR" === value[i]) days.TR = true;
+    if ("R" === value[i]) days.R = true;
 
     if ("F" === value[i]) days.F = true;
   }

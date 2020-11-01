@@ -13,8 +13,17 @@ const GTA_PATH = "src/inputFiles/schedules.xlsx";
 function main() {
   let labs = getLabs(COURSES_PATH);
   let gtas = getGTAs(GTA_PATH);
+
+  schedule = {};
+
+  // for (let i = 0; i < gtas.length; i++) {
+  //   for (let j = 0; j < gtas[i].Busy.length; j++) {
+
+  //   }
+  // }
+  
   // console.log(labs);
-  console.log(gtas);
+  // console.log(gtas[0].Busy);
 
 }
 

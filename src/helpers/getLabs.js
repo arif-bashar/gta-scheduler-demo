@@ -49,7 +49,7 @@ const getDays = (lab) => {
     M: false,
     T: false,
     W: false,
-    TR: false,
+    R: false,
     F: false
   }
 
@@ -60,7 +60,7 @@ const getDays = (lab) => {
 
   if ("W" in lab) days.W = true;
 
-  if ("TR" in lab) days.TR = true;
+  if ("R" in lab) days.R = true;
 
   if ("F" in lab) days.F = true;
 
