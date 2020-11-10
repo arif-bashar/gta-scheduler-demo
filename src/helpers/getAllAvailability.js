@@ -7,6 +7,7 @@ const GTA_PATH = "src/inputFiles/schedules.xlsx";
 //initializing availability class to open availability
 class availability {
     constructor() {
+        this.Student = "default";
         this.M = [[600, 2000]];
         this.T = [[600, 2000]];
         this.W = [[600, 2000]];
@@ -16,7 +17,7 @@ class availability {
 }
 
 //gets all availabilities for all gtas
-const getAllAvailability = (availabilityPath) => {
+const getAllAvailability = () => {
     let gtas = getGTAs(GTA_PATH);
 
     // Object array to hold list of schedules 
@@ -26,16 +27,6 @@ const getAllAvailability = (availabilityPath) => {
     for(let i = 0; i < gtas.length; i++) {
         gtasAvailable.push(getAvailability(gtas[i]));
         
-        //test print statements
-        /*
-        console.log(gtas[i].Student);
-        console.log(gtasAvailable[i].M);
-        console.log(gtasAvailable[i].T);
-        console.log(gtasAvailable[i].W);
-        console.log(gtasAvailable[i].R);
-        console.log(gtasAvailable[i].F);
-        console.log(i);
-        */
     }
 
     return gtasAvailable;
@@ -44,6 +35,8 @@ const getAllAvailability = (availabilityPath) => {
 //passes in gta object that has properties Student and Busy
 function getAvailability(gta) {
     available = new availability();
+
+    available.Student = gta.Student;
 
     //in the case that the gta has no classes
     if (gta.hasOwnProperty('Busy') == false){
