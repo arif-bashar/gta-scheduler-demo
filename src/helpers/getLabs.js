@@ -25,15 +25,21 @@ const getLabs = (coursesPath) => {
     /* If there is a duplicate course with the same CRN,
       then it is considered a lab */
     if (courses[i].CRN == prevCRN && courses[i].CRSE != '6050') {
+
       labs.push({
         CRN: courses[i].CRN,
         Course: courses[i].SUBJ + " " + courses[i].CRSE + " " + courses[i].SEC,
         Title: courses[i].TITLE,
+        Cap: courses[i].CAP,
         Days: getDays(courses[i]),
         Begin: parseInt(courses[i].BEGIN),
         End: parseInt(courses[i].END_1),
         Prof: courses[i].FIRST + " " + courses[i].LAST,
+        NumGTAs: 1
       });
+      if ((labs[labs.length-1].Cap > 45) && !(labs[labs.length-1].Course.includes('3240'))) {
+        labs[labs.length-1].NumGTAs = 2;
+      }
     }
 
     // Update the CRN

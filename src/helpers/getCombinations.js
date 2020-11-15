@@ -21,7 +21,7 @@ const getCombinations = () => {
     }
 
 
-
+    /*
     //print everything
     for (let i = 0; i < allScheduleCombos.length; i++) {
         //console.log(allScheduleCombos[i].Student);
@@ -33,6 +33,7 @@ const getCombinations = () => {
         }
         console.log(eachStudent);
     }
+    */
 
     return allScheduleCombos;
 }
@@ -139,10 +140,39 @@ module.exports = getCombinations;
 
 
 /*
-    Output
-
+    Output:
+    getCompleteSchedules
+    Schedule 1
     Student name1: CRN
-        remaining availability
+        remaining labs they could teach
     Student name2: CRN
-        remaining availability
+        remaining labs they could teach
+    ...
+
+    Schedule2
+    Student name1: CRN
+        remaining labs they could teach
+    Student name2: CRN
+        remaining labs they could teach
+    ...
+
+
+
+
+    output:
+    getSimpleLabs
+    GTA_name
+    lab1        
+    lab2, lab3  
+    lab3, lab4  
+    (format getSchedules in another helper function)
+
+
+
+
+
+    One or two lab assistants:
+        3240 has one GTA always
+        if class has more than 45 students, it has two GTAs
+
 */
