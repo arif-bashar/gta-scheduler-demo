@@ -8,6 +8,7 @@ class SimpleSchedule {
     }
 }
 
+//gets simple labs for all gtas
 const getSimpleLabs = () => {
     let allSchedules = getSchedules();
 
@@ -20,21 +21,16 @@ const getSimpleLabs = () => {
     return allGTASimpleLabs;
 }
 
+//checks to see if two labs times overlap at all
 function sameTime(lab1, lab2){
 
-    if (lab1.Begin === lab2.Begin)
-        {
+    if ((lab1.Begin === lab2.Begin) || 
+        (lab1.Begin > lab2.Begin && lab1.Begin < lab2.End) || 
+        (lab2.Begin > lab1.Begin && lab2.Begin < lab1.End))
+    {
             return true;
-        }
-    else if (lab1.Begin > lab2.Begin && lab1.Begin < lab2.End){
-        
-        return true;
     }
-    else if (lab2.Begin > lab1.Begin && lab2.Begin < lab1.End) {
-       
-        return true;
-    }
-    else{
+    else {
         return false;
     }
 
@@ -55,6 +51,7 @@ function listLabs(workingLabs) {
             for(let j = i + 1; j < workingLabs.labs.length; j++) {
 
                 //check if all days are same
+                //Monday
                 if ((workingLabs.labs[i].Days.M === true) && (workingLabs.labs[j].Days.M === true)) {
                     //Check if times are same on that day
                     if (sameTime(workingLabs.labs[i], workingLabs.labs[j]))
@@ -65,6 +62,7 @@ function listLabs(workingLabs) {
                             continue;
                         }                
                 }
+                //Tuesday
                 if ((workingLabs.labs[i].Days.T === true) && (workingLabs.labs[j].Days.T === true)) {
                     
                     if (sameTime(workingLabs.labs[i], workingLabs.labs[j])) 
@@ -75,6 +73,7 @@ function listLabs(workingLabs) {
                             continue;                   
                       }
                 }
+                //Wednesday
                 if ((workingLabs.labs[i].Days.W === true) && (workingLabs.labs[j].Days.W === true)) {
                     
                     if (sameTime(workingLabs.labs[i], workingLabs.labs[j]))
@@ -85,6 +84,7 @@ function listLabs(workingLabs) {
                             continue;                
                       }
                 }
+                //Thursday
                 if ((workingLabs.labs[i].Days.R === true) && (workingLabs.labs[j].Days.R === true)) {
                     
                     if (sameTime(workingLabs.labs[i], workingLabs.labs[j]))
@@ -95,6 +95,7 @@ function listLabs(workingLabs) {
                             continue;                  
                       }
                 }
+                //Friday
                 if ((workingLabs.labs[i].Days.F === true) && (workingLabs.labs[j].Days.F === true)) {
                     
                     if (sameTime(workingLabs.labs[i], workingLabs.labs[j]))  
@@ -123,39 +124,6 @@ function listLabs(workingLabs) {
     simpleSchedule.labs = simpleLabs;
     return simpleSchedule;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-Output
-
-[[{Lab1}],
-[{lab2}, {lab3}],
-[{lab3}, {lab4}]]
-
-
-
-
-
-
-John
-CRN1    TITLE       1EarliestTIME    DAYS
-CRN2    TITLE       2EarliestTIME    DAYS
-
-*/
-
-
-
-
 
 
 

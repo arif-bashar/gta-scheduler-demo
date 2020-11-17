@@ -1,38 +1,30 @@
 // Import modules
 const getGTAs = require("./helpers/getGTAs");
-const getCombinations = require("./helpers/getCombinations");
 const getSimpleLabs = require("./helpers/getSimpleLabs");
-const getCompleteSchedules = require("./helpers/getCompleteSchedules");
-const getSchedules = require("./helpers/getSchedules");
 
 // Path parameters
-// const COURSES_PATH = "src/inputFiles/courses.xlsx";
 const GTA_PATH = "src/inputFiles/schedules.xlsx";
 
 
 function main() {
-  //let labs = getLabs(COURSES_PATH);
-  let gtas = getGTAs(GTA_PATH);
-
- // getSimpleLabs();
-  
-  
-
-
-
-  //getCombinations();
-
-  //getCompleteSchedules();
 
   sched = getSimpleLabs();
   for (let i = 0; i < sched.length; i++) {
-    console.log(sched[i].Student);
-    console.log(sched[i].labs);
+    console.log("-------------------------------------------------------------------------");
+    console.log("GTA Name: " + sched[i].Student);
+    for(let j = 0; j < sched[i].labs.length; j++){
+
+      if(sched[i].labs[j].length === 2){
+        console.log("These two labs happen at the same time:");
+      }
+      else {
+        console.log("Lab:");
+      }
+      console.log(sched[i].labs[j]);
+    }
 
   }
 
-  //console.log(labs);
-  //console.log(gtas[0]);
 }
 
 main();
