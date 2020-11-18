@@ -13,17 +13,18 @@ function main() {
     console.log("-------------------------------------------------------------------------");
     console.log("GTA Name: " + sched[i].Student);
     for(let j = 0; j < sched[i].labs.length; j++){
-
-      if(sched[i].labs[j].length === 2){
-        console.log("These two labs happen at the same time:");
-      }
-      else {
-        console.log("Lab:");
-      }
+      console.log("Lab:");
       console.log(sched[i].labs[j]);
     }
 
+    for(let j = 0; j < sched[i].duplicates.length; j++){
+      console.log("These two labs happen at the same time (Duplicates):");
+      console.log(sched[i].duplicates[j]);
+    }
+
   }
+
+
 
 }
 

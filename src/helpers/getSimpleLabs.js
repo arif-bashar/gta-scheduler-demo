@@ -119,7 +119,7 @@ function listLabs(workingLabs) {
     }
 
     //Now append the pairs that are overlapping
-    simpleLabs = simpleLabs.concat(items);
+    simpleSchedule.duplicates = items;
 
     simpleSchedule.labs = simpleLabs;
     return simpleSchedule;
